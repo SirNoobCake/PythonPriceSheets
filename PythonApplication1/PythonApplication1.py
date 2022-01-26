@@ -213,7 +213,7 @@ x = 0
 for i in range(columns_WSP):
     j = 0
     if i < 17:
-        for row in ws_WSP.iter_rows(min_col=3,min_row=x + 5,max_col=6,max_row=x + 5):
+        for row in ws_WSP.iter_rows(min_col=4,min_row=x + 5,max_col=7,max_row=x + 5):
             for cell in row:
                 cell.value = format(products_WSP_list[i][j],'.2f')
                 j += 1
@@ -222,7 +222,7 @@ for i in range(columns_WSP):
     else:
         if i == 17:
             x = 0
-        for row in ws_WSP.iter_rows(min_col=8,min_row=x + 5,max_col=27,max_row=x + 5):
+        for row in ws_WSP.iter_rows(min_col=9,min_row=x + 5,max_col=28,max_row=x + 5):
             for cell in row:
                 cell.value = format(products_WSP_list[i][j],'.2f')
                 j += 1
