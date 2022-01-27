@@ -1,5 +1,7 @@
 from openpyxl import load_workbook
 
+import os
+
 def isfloat(num):
     try:
         float(num)
@@ -7,15 +9,25 @@ def isfloat(num):
     except ValueError:
         return False
 
-# Setting Year
+# Setting Year & Directory
+directory = ""
 year = 0
 with open("year.txt", "r") as file_year:
     for line in file_year:
-        year = line
+        for i in line.split(","):
+            if isfloat(i.strip()):
+                year = i
+            else:
+                directory = i
+        
 file_year.close()
 
+#   Makes sure a file exists
+filepath = os.path.join(directory, 'filename')
+if not os.path.exists(directory):
+    os.makedirs(directory)
 
-# Setting up vars for WSDP
+#   Setting up vars for WSDP
 rows_WSDP = 21
 columns_WSDP = 19
 
@@ -24,7 +36,7 @@ products_WSDP_arr = [[0 for i in range(rows_WSDP)] for j in range(columns_WSDP)]
 j = 0
 k = -1 # Temp fix to make k == 0 for first iteration
 
-# Populating products_arr
+#   Populating products_arr
 with open("WSDP.txt", "r") as WSPD:
     for line in WSPD:
         for i in line.split(','):
@@ -38,7 +50,7 @@ with open("WSDP.txt", "r") as WSPD:
                 j = 0
 WSPD.close()
 
-# Setting up vars for WSP
+#   Setting up vars for WSP
 rows_WSP = 20
 columns_WSP = 34
 
@@ -169,7 +181,7 @@ for i in range(columns_RTD):
             x += 2
 
 # Save Worksheet
-load_RTD_wb.save(year + "_Retail_Delivered_Prices.xlsx")
+load_RTD_wb.save(directory + "\\" + year + "_Retail_Delivered_Prices.xlsx")
 
 
 
@@ -197,7 +209,7 @@ for i in range(columns_RTPU):
                    break
         x += 2
 
-load_RTPU_wb.save(year + "_Retail_Picked-up_Price.xlsx")
+load_RTPU_wb.save(directory + "\\" + year + "_Retail_Picked-up_Price.xlsx")
 
 
 
@@ -233,7 +245,7 @@ for i in range(columns_WSP):
         x += 2
     else:
         x += 1
-load_WSP_wb.save(year + "_Wholesale_Prices.xlsx")
+load_WSP_wb.save(directory + "\\" + year + "_Wholesale_Prices.xlsx")
 
 #   Setting up for Wholesale Delivered Prices Sheet
 
@@ -275,5 +287,5 @@ for i in range(columns_WSDP):
             x += 2
 
 # Save Worksheet
-load_WSDP_wb.save(year + "_Wholesale_Delivered_Prices.xlsx")
+load_WSDP_wb.save(directory + "\\" + year + "_Wholesale_Delivered_Prices.xlsx")
 
